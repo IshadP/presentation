@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "slidev": "slidev --port 3030",
+    "slidev:build": "slidev build"
   },
   "dependencies": {
     "next": "16.2.10",
@@ -14,6 +16,8 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@slidev/cli": "^52.18.0",
+    "@slidev/theme-default": "^0.25.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

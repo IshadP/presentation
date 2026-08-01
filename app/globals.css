@@ -1,26 +1,196 @@
+/* ============================================================
+   GLOBAL STYLESHEET — Ishad Pande Portfolio & Presentation
+   Built for Tailwind v4
+   ============================================================ */
+
+/* ============================================================
+   1. IMPORTS
+   ============================================================ */
+
 @import "tailwindcss";
 
+/* ============================================================
+   2. THEME — Primitive Design Tokens
+   These map 1:1 with the Tailwind export.
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Backgrounds */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F9F9F9;
+  --bg-tertiary: #F1F1F1;
+  --bg-muted: #E6E6E6;
+
+  /* Text */
+  --text-primary: #1E1E1E;
+  --text-secondary: #666666;
+  --text-tertiary: #AAAAAA;
+  --text-disabled: #C5C5C5;
+  --text-inverse: #FFFFFF;
+
+  /* Borders */
+  --border-primary: #E7E7E7;
+  --border-secondary: #D9D9D9;
+
+  /* Brand */
+  --brand-primary: #283CBD;
+  --brand-surface: #DCE0FE;
+
+  /* Interactive */
+  --interactive-primary: var(--brand-primary);
+  --interactive-primary-hover: #2034A8;
+  --interactive-surface: var(--brand-surface);
+
+  /* Icons */
+  --icon-primary: var(--text-primary);
+  --icon-secondary: var(--text-tertiary);
 }
+
+@theme {
+  /* ----------------------------------------------------------
+     2.1 Font Families
+     ---------------------------------------------------------- */
+  --font-sans: var(--font-sans), "Geist", sans-serif;
+  --font-mono: var(--font-mono), "Geist Mono", monospace;
+  --font-jet: var(--font-jetbrains-mono), "JetBrains Mono", monospace;
+  --font-display: var(--font-sans), "Geist", sans-serif;
+  --font-display-mono: var(--font-d-mono), "PT Mono", monospace;
+
+  --width-content: 56.25rem;
+}
+
+/* ============================================================
+   3. THEME INLINE — Tokens
+   ============================================================ */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* ----------------------------------------------------------
+     3.1 Backgrounds
+     ---------------------------------------------------------- */
+  --color-bg-default: #ffffff;
+  --color-bg-secondary: #f9f9f9;
+  --color-bg-tertiary: #f1f1f1;
+  --color-outline: #e7e7e7;
+
+  /* ----------------------------------------------------------
+     3.2 Text
+     ---------------------------------------------------------- */
+  --color-text-primary: #1e1e1e;
+  --color-text-secondary: #666666;
+  --color-text-tertiary: #aaaaaa;
+  --color-text-disabled: #c5c5c5;
+  --color-text-inverse: #ffffff;
+
+  /* ----------------------------------------------------------
+     3.3 Brand / Primary
+     ---------------------------------------------------------- */
+  --color-primary: #283cbd;
+  --color-primary-muted: #dce0fe;
+  --color-primary-hover: #2034a8;
+
+  /* ----------------------------------------------------------
+     3.4 Status
+     ---------------------------------------------------------- */
+  --color-success: #21af55;
+  --color-fail: #e34646;
+  --color-warn: #c8c812;
+  --color-info: #2a8aff;
+
+  --color-success-bg: #e3fee1;
+  --color-success-fg: #00421f;
+  --color-fail-bg: #ffe6e6;
+  --color-fail-fg: #742424;
+  --color-info-bg: #e6f0ff;
+  --color-info-fg: #13448d;
+
+  /* ----------------------------------------------------------
+     3.5 Semantic aliases
+     ---------------------------------------------------------- */
+  --color-link: var(--color-primary);
+  --color-link-hover: var(--color-primary-hover);
+
+  /* ----------------------------------------------------------
+     3.6 Layout
+     ---------------------------------------------------------- */
+  --width-content: 52.5rem;
+  --width-wide: 57.5rem;
+  --aspect-mobile: 320/683;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ============================================================
+   4. FONT STYLE UTILITIES
+   ============================================================ */
+
+@layer utilities {
+
+  /* Display / Hero */
+  .font-h1-display {
+    @apply font-display-mono text-[0.6625rem] leading-2.75 antialiased;
+  }
+
+  .font-h1 {
+    @apply font-display text-[2rem] md:text-[2.5rem] leading-10 md:leading-12 font-semibold antialiased;
+  }
+
+  .font-h2 {
+    @apply font-display text-2xl md:text-[1.75rem] leading-8 md:leading-12 font-semibold antialiased;
+  }
+
+  .font-h3 {
+    @apply font-display text-xl md:text-2xl leading-6 md:leading-8 font-semibold tracking-wide antialiased;
+  }
+
+  .font-h4 {
+    @apply font-display text-lg md:text-xl leading-7 font-semibold antialiased;
+  }
+
+  /* Body — sans (Geist) */
+  .font-body-lg-bold {
+    @apply font-sans md:text-2xl text-xl font-semibold leading-8 antialiased;
+  }
+
+  .font-body-lg {
+    @apply font-sans md:text-2xl text-xl leading-8 font-medium antialiased;
+  }
+
+  .font-body-md-bold {
+    @apply font-sans text-lg leading-6 font-semibold antialiased;
+  }
+
+  .font-body-md {
+    @apply font-sans text-base md:text-lg leading-6 antialiased;
+  }
+
+  .font-body-sm-bold {
+    @apply font-sans text-base leading-6 font-semibold antialiased;
+  }
+
+  .font-body-sm {
+    @apply font-sans text-base leading-6 antialiased;
+  }
+
+  .font-nav {
+    @apply font-sans text-base font-medium leading-6 antialiased;
+  }
+
+  /* Label — mono (JetBrains Mono) */
+  .font-mono-lg {
+    @apply font-jet md:text-lg text-base font-medium tracking-normal leading-7 antialiased;
+  }
+
+  .font-mono-md {
+    @apply font-jet text-sm md:text-base leading-5 font-medium antialiased;
+  }
+
+  .font-mono-sm {
+    @apply font-jet text-sm leading-5 font-medium antialiased;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.scrollable-element {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
