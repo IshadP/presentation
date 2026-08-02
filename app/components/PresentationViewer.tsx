@@ -3,16 +3,19 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ABOUT_ME_SLIDES, TOPICS, Slide } from "../data/slides";
+import IndexCard from "./IndexCard";
 
 type ViewMode = "intro" | "index" | "topic";
 
 export default function PresentationViewer() {
-  const [viewMode, setViewMode] = useState<ViewMode>("intro");
+  const [viewMode, setViewMode] = useState<ViewMode>("index");
   const [introIndex, setIntroIndex] = useState(0);
   const [selectedTopicId, setSelectedTopicId] = useState<string>("printhub");
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isThankYou, setIsThankYou] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [hideUI, setHideUI] = useState(false);
+  const [focusedTopicIndex, setFocusedTopicIndex] = useState(0);
 
   const activeTopic = TOPICS.find((t) => t.id === selectedTopicId) || TOPICS[0];
   const activeSlide: Slide | undefined = activeTopic.slides[currentSlideIndex];
@@ -31,6 +34,10 @@ export default function PresentationViewer() {
   }, []);
 
   const handleNextSlide = useCallback(() => {
+    if (viewMode === "index") {
+      setFocusedTopicIndex((prev) => Math.min(prev + 1, TOPICS.length - 1));
+      return;
+    }
     if (viewMode === "intro") {
       if (introIndex < ABOUT_ME_SLIDES.length - 1) {
         setIntroIndex((prev) => prev + 1);
@@ -54,6 +61,10 @@ export default function PresentationViewer() {
   }, [viewMode, introIndex, isThankYou, currentSlideIndex, activeTopic.slides.length, selectedTopicId, handleSelectTopic, handleGoToIndex]);
 
   const handlePrevSlide = useCallback(() => {
+    if (viewMode === "index") {
+      setFocusedTopicIndex((prev) => Math.max(prev - 1, 0));
+      return;
+    }
     if (viewMode === "intro") {
       if (introIndex > 0) {
         setIntroIndex((prev) => prev - 1);
@@ -73,12 +84,15 @@ export default function PresentationViewer() {
   // Keyboard listeners
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" || e.key === " ") {
+      if (e.key === "ArrowRight" || (e.key === " " && viewMode !== "index")) {
         e.preventDefault();
         handleNextSlide();
       } else if (e.key === "ArrowLeft") {
         e.preventDefault();
         handlePrevSlide();
+      } else if (e.key === "Enter" && viewMode === "index") {
+        e.preventDefault();
+        handleSelectTopic(TOPICS[focusedTopicIndex].id);
       } else if (e.key === "Escape" || e.key === "h" || e.key === "H") {
         e.preventDefault();
         handleGoToIndex();
@@ -87,7 +101,7 @@ export default function PresentationViewer() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleNextSlide, handlePrevSlide, handleGoToIndex]);
+  }, [handleNextSlide, handlePrevSlide, handleGoToIndex, handleSelectTopic, viewMode, focusedTopicIndex]);
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -113,37 +127,41 @@ export default function PresentationViewer() {
   return (
     <div className="flex flex-col w-full h-screen bg-bg-default text-text-primary font-sans overflow-hidden select-none relative">
       {/* 1. TOP PROGRESS BAR FIXED AT VERY TOP OF PAGE */}
-      <div className="fixed top-0 left-0 right-0 w-full h-1 bg-bg-tertiary z-50">
-        <div
-          className="h-full bg-primary transition-all duration-300"
-          style={{ width: `${progressPercentage}%` }}
-        />
-      </div>
+      {!hideUI && (
+        <div className="fixed top-0 left-0 right-0 w-full h-1 bg-bg-tertiary z-50">
+          <div
+            className="h-full bg-primary transition-all duration-300"
+            style={{ width: `${progressPercentage}%` }}
+          />
+        </div>
+      )}
 
       {/* 2. TOP-LEFT EXPANDED NAVIGATION PILLS (ABOUT ME & INDEX) */}
-      <div className="fixed top-4 left-4 z-50 flex items-center bg-bg-default/90 backdrop-blur-md p-1 rounded-full border border-outline shadow-xs text-xs font-nav">
-        <button
-          onClick={() => {
-            setViewMode("intro");
-            setIntroIndex(0);
-          }}
-          className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer ${viewMode === "intro"
-            ? "bg-primary-muted text-primary font-semibold shadow-xs"
-            : "text-text-secondary hover:text-text-primary hover:bg-bg-tertiary"
-            }`}
-        >
-          ABOUT ME
-        </button>
-        <button
-          onClick={handleGoToIndex}
-          className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer ${viewMode === "index"
-            ? "bg-primary-muted text-primary font-semibold shadow-xs"
-            : "text-text-secondary hover:text-text-primary hover:bg-bg-tertiary"
-            }`}
-        >
-          INDEX
-        </button>
-      </div>
+      {!hideUI && (
+        <div className="fixed top-4 left-4 z-50 flex items-center bg-bg-default/90 backdrop-blur-md p-1 rounded-full border border-outline shadow-xs text-xs font-nav">
+          <button
+            onClick={() => {
+              setViewMode("intro");
+              setIntroIndex(0);
+            }}
+            className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer ${viewMode === "intro"
+              ? "bg-primary-muted text-primary font-semibold shadow-xs"
+              : "text-text-secondary hover:text-text-primary hover:bg-bg-tertiary"
+              }`}
+          >
+            ABOUT ME
+          </button>
+          <button
+            onClick={handleGoToIndex}
+            className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer ${viewMode === "index"
+              ? "bg-primary-muted text-primary font-semibold shadow-xs"
+              : "text-text-secondary hover:text-text-primary hover:bg-bg-tertiary"
+              }`}
+          >
+            INDEX
+          </button>
+        </div>
+      )}
 
       {/* 3. TOP-RIGHT FLOATING ACTION BUTTON (FULLSCREEN FAB) */}
       {/* <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
@@ -159,10 +177,10 @@ export default function PresentationViewer() {
       </div> */}
 
       {/* MAIN CANVAS SURFACE */}
-      <main className="flex-1 flex flex-col items-center justify-center relative overflow-y-auto scrollable-element bg-bg-default pt-16">
+      <main className="flex-1 flex flex-col items-center justify-center relative overflow-y-auto scrollable-element bg-bg-default w-full h-full">
         {/* ==================== 1. INTRO / ABOUT ME VIEW ==================== */}
         {viewMode === "intro" && (
-          <div className="w-full max-w-5xl flex flex-col gap-8">
+          <div className="w-full max-w-5xl flex flex-col gap-8 p-6 md:p-12">
             <div className="flex flex-col gap-4">
               <span className="font-mono-md text-text-secondary">
                 Hello, I'm Ishad
@@ -215,60 +233,70 @@ export default function PresentationViewer() {
           </div>
         )}
 
-        {/* ==================== 2. INDEX HUB VIEW ==================== */}
+        {/* ==================== 2. INDEX HUB VIEW (PS-STYLE CAROUSEL) ==================== */}
         {viewMode === "index" && (
-          <div className="w-full max-w-5xl flex flex-col gap-8">
-            <div className="flex flex-col gap-2">
+          <div className="w-full flex flex-col justify-center h-full overflow-hidden pl-6 md:pl-12">
+            <div className="flex flex-col gap-2 mb-8 max-w-3xl">
               <span className="font-mono-md text-text-secondary">
                 &gt; Case Studies & Topic Decks
               </span>
               <h1 className="font-h1 text-text-primary">Presentation Index</h1>
               <p className="font-body-md text-text-secondary max-w-2xl">
-                Click any topic below to jump directly into its full presentation deck (15-20 slides per topic with visual breakdowns).
+                Use ← → to browse, Enter to open a deck.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-              {TOPICS.map((topic, index) => (
-                <div
-                  key={topic.id}
-                  onClick={() => handleSelectTopic(topic.id)}
-                  className="group flex flex-col bg-bg-default border border-outline hover:border-primary rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:bg-bg-secondary"
-                >
-                  <div className="w-full h-[180px] relative overflow-hidden bg-bg-tertiary">
-                    <Image
-                      src={topic.coverImage}
-                      alt={topic.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      unoptimized
-                    />
-                    <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-primary-muted text-primary text-xs font-mono-sm font-semibold">
-                      {topic.slideCount} Slides
+            {/* Carousel track — transform shifts so focused card stays at left edge, aligned with heading */}
+            <div className="relative w-full overflow-visible">
+              <div
+                className="flex gap-6 transition-transform duration-500 ease-out"
+                style={{
+                  transform: `translateX(calc(-${focusedTopicIndex} * (min(1000px, 80vw) + 1.5rem)))`,
+                }}
+              >
+                {TOPICS.map((topic, index) => {
+                  const isFocused = index === focusedTopicIndex;
+                  return (
+                    <div
+                      key={topic.id}
+                      className={`w-[80vw] md:w-[1000px] shrink-0 transition-all duration-500 ease-out ${
+                        isFocused
+                          ? "scale-100 opacity-100"
+                          : "scale-90 opacity-50"
+                      }`}
+                    >
+                      <IndexCard
+                        title={topic.title}
+                        subtitle={topic.subtitle}
+                        category={topic.category}
+                        coverImage={topic.coverImage}
+                        slideCount={topic.slideCount}
+                        onClick={() => {
+                          if (isFocused) {
+                            handleSelectTopic(topic.id);
+                          } else {
+                            setFocusedTopicIndex(index);
+                          }
+                        }}
+                      />
                     </div>
-                  </div>
+                  );
+                })}
+              </div>
+            </div>
 
-                  <div className="flex flex-col flex-1 p-6 gap-3">
-                    <span className="font-mono-sm text-xs text-primary font-semibold">
-                      TOPIC 0{index + 1}
-                    </span>
-                    <h2 className="font-h3 text-text-primary group-hover:text-primary transition-colors">
-                      {topic.title}
-                    </h2>
-                    <p className="font-body-sm text-text-secondary leading-relaxed flex-1">
-                      {topic.subtitle}
-                    </p>
-
-                    <div className="flex items-center justify-between pt-4 border-t border-outline mt-2">
-                      <span className="font-mono-sm text-xs text-text-tertiary">
-                        {topic.category}
-                      </span>
-                      <span className="font-body-sm-bold text-xs text-primary group-hover:translate-x-1 transition-transform">
-                        Open Deck →
-                      </span>
-                    </div>
-                  </div>
-                </div>
+            {/* Dot indicators */}
+            <div className="flex gap-2 mt-4">
+              {TOPICS.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setFocusedTopicIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                    index === focusedTopicIndex
+                      ? "bg-primary w-6"
+                      : "bg-text-tertiary/40 hover:bg-text-tertiary"
+                  }`}
+                />
               ))}
             </div>
           </div>
@@ -278,7 +306,7 @@ export default function PresentationViewer() {
         {viewMode === "topic" && !isThankYou && activeSlide && (
           selectedTopicId === "printhub" || selectedTopicId === "youtube" || selectedTopicId === "wellplayed" ? (
             /* Full-screen Edge-to-Edge Image for Image Case Study Decks */
-            <div className="w-full h-full relative rounded-2xl overflow-hidden">
+            <div className="w-full h-full relative overflow-hidden">
               <Image
                 src={activeSlide.imageUrl}
                 alt={activeSlide.imageAlt || activeSlide.title}
@@ -290,7 +318,7 @@ export default function PresentationViewer() {
             </div>
           ) : (
             /* Standard Split Layout for other topic decks */
-            <div className="w-full max-w-6xl flex flex-col md:flex-row items-center gap-8 md:gap-12 min-h-[500px]">
+            <div className="w-full max-w-6xl flex flex-col md:flex-row items-center gap-8 md:gap-12 min-h-[500px] p-6 md:p-12">
               {/* Left Column: Image Display */}
               <div className="w-full md:w-[50%] flex flex-col items-center justify-center">
                 <div className="w-full h-[280px] sm:h-[360px] md:h-[440px] relative rounded-2xl overflow-hidden border border-outline bg-bg-secondary">
@@ -354,7 +382,7 @@ export default function PresentationViewer() {
 
         {/* ==================== 4. THANK YOU PAGE (END OF TOPIC) ==================== */}
         {viewMode === "topic" && isThankYou && (
-          <div className="w-full max-w-3xl flex flex-col items-center text-center gap-6 py-8">
+          <div className="w-full max-w-3xl flex flex-col items-center text-center gap-6 p-6 md:p-12">
             <div className="w-16 h-16 rounded-full bg-primary-muted flex items-center justify-center text-primary">
               <span className="material-symbols-rounded text-3xl">task_alt</span>
             </div>
@@ -400,8 +428,21 @@ export default function PresentationViewer() {
       {/* MINIMAL FLOATING NEXT & BACK CONTROLS AT BOTTOM RIGHT */}
       <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-bg-default/90 backdrop-blur-md p-1.5 rounded-full border border-outline shadow-sm">
         <button
+          onClick={() => setHideUI((prev) => !prev)}
+          className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors cursor-pointer shadow-xs ${hideUI
+            ? "bg-text-secondary text-text-inverse"
+            : "bg-bg-default text-text-tertiary "
+            }`}
+          title={hideUI ? "Show UI" : "Hide UI"}
+        >
+          <span className="material-symbols-rounded text-xl">
+            {hideUI ? "visibility_off" : "visibility"}
+          </span>
+        </button>
+
+        <button
           onClick={handlePrevSlide}
-          className="w-9 h-9 rounded-full bg-bg-default  text-text-tertiary hover:bg-bg-tertiary flex items-center justify-center transition-colors cursor-pointer shadow-xs"
+          className="w-9 h-9 rounded-full bg-bg-default text-text-tertiary hover:bg-bg-tertiary hover:text-text-primary flex items-center justify-center transition-colors cursor-pointer shadow-xs"
           title="Previous Slide (←)"
         >
           <span className="material-symbols-rounded text-xl">arrow_back</span>
@@ -409,7 +450,7 @@ export default function PresentationViewer() {
 
         <button
           onClick={handleNextSlide}
-          className="w-9 h-9 rounded-full bg-bg-default text-text-tertiary hover:bg-bg-tertiary flex items-center justify-center transition-colors cursor-pointer shadow-xs"
+          className="w-9 h-9 rounded-full bg-bg-default text-text-tertiary hover:bg-bg-tertiary hover:text-text-primary flex items-center justify-center transition-colors cursor-pointer shadow-xs"
           title="Next Slide (→)"
         >
           <span className="material-symbols-rounded text-xl">arrow_forward</span>

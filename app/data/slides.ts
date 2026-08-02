@@ -107,6 +107,8 @@ const printhubSlides: Slide[] = [
   { id: "printhub-13", title: "", description: "", imageUrl: "/printhub/printhub-13.png" },
   { id: "printhub-14", title: "", description: "", imageUrl: "/printhub/printhub-14.png" },
   { id: "printhub-15", title: "", description: "", imageUrl: "/printhub/printhub-15.png" },
+  { id: "printhub-16", title: "", description: "", imageUrl: "/printhub/printhub-16.png" },
+  { id: "printhub-17", title: "", description: "", imageUrl: "/printhub/printhub-17.png" },
 ];
 
 
