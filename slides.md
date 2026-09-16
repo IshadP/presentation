@@ -45,6 +45,15 @@ Multi-brand design tokens, primitive utility classes, and accessible components.
 
 Human-in-the-loop interaction patterns and streaming artifacts.
 
+- [Topic 5: Grid Insight](#7) (14 Slides)
+
+---
+
+# Topic 5: Grid Insight
+<img src="/gi/GI-1.png" class="max-h-[60vh] mx-auto rounded-xl shadow-xl" />
+
+Smart grid analytics and energy management platform UX design.
+
 ---
 
 # Thank You!

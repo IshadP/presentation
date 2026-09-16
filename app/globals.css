@@ -1,191 +1,373 @@
 /* ============================================================
    GLOBAL STYLESHEET — Ishad Pande Portfolio & Presentation
-   Built for Tailwind v4
+   Replicating exact visual design language & tokens
    ============================================================ */
 
 /* ============================================================
-   1. IMPORTS
+   1. IMPORTS & EXTERNAL FONTS
    ============================================================ */
 
+@import url("https://api.fontshare.com/v2/css?f[]=erode@400,500,600,700&display=swap");
 @import "tailwindcss";
 
+
 /* ============================================================
-   2. THEME — Primitive Design Tokens
-   These map 1:1 with the Tailwind export.
+   2. THEME — Primitive Design Tokens & Typography
    ============================================================ */
 
 :root {
   /* Backgrounds */
-  --bg-primary: #FFFFFF;
-  --bg-secondary: #F9F9F9;
-  --bg-tertiary: #F1F1F1;
-  --bg-muted: #E6E6E6;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9f9f9;
+  --bg-tertiary: #f1f1f1;
+  --bg-muted: #e6e6e6;
 
   /* Text */
-  --text-primary: #1E1E1E;
+  --text-primary: #1e1e1e;
   --text-secondary: #666666;
-  --text-tertiary: #AAAAAA;
-  --text-disabled: #C5C5C5;
-  --text-inverse: #FFFFFF;
+  --text-tertiary: #aaaaaa;
+  --text-disabled: #c5c5c5;
+  --text-inverse: #ffffff;
 
   /* Borders */
-  --border-primary: #E7E7E7;
-  --border-secondary: #D9D9D9;
+  --border-primary: #e7e7e7;
+  --border-secondary: #d9d9d9;
 
   /* Brand */
-  --brand-primary: #283CBD;
-  --brand-surface: #DCE0FE;
+  --brand-primary: #293dbd;
+  --brand-surface: #dce0fe;
 
   /* Interactive */
   --interactive-primary: var(--brand-primary);
-  --interactive-primary-hover: #2034A8;
+  --interactive-primary-hover: #2034a8;
   --interactive-surface: var(--brand-surface);
 
-  /* Icons */
-  --icon-primary: var(--text-primary);
-  --icon-secondary: var(--text-tertiary);
+  /* Material Symbols rounded settings */
+  --material-symbols-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
 @theme {
-  /* ----------------------------------------------------------
-     2.1 Font Families
-     ---------------------------------------------------------- */
-  --font-sans: var(--font-sans), "Geist", sans-serif;
-  --font-mono: var(--font-mono), "Geist Mono", monospace;
-  --font-jet: var(--font-jetbrains-mono), "JetBrains Mono", monospace;
-  --font-display: var(--font-sans), "Geist", sans-serif;
-  --font-display-mono: var(--font-d-mono), "PT Mono", monospace;
+  /* Font Families */
+  --font-sans: var(--font-sans), "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-jet: var(--font-jet), "JetBrains Mono", monospace;
+  --font-mono: var(--font-jet), "JetBrains Mono", monospace;
+  --font-erode: "Erode", Georgia, serif;
+  --font-display: "Erode", Georgia, serif;
 
-  --width-content: 56.25rem;
+  --width-content: 52.5rem;
+  --width-wide: 57.5rem;
 }
 
 /* ============================================================
-   3. THEME INLINE — Tokens
+   3. THEME INLINE — Semantic Color Tokens & Layout
    ============================================================ */
 
 @theme inline {
-  /* ----------------------------------------------------------
-     3.1 Backgrounds
-     ---------------------------------------------------------- */
+  /* Backgrounds */
   --color-bg-default: #ffffff;
   --color-bg-secondary: #f9f9f9;
   --color-bg-tertiary: #f1f1f1;
   --color-outline: #e7e7e7;
 
-  /* ----------------------------------------------------------
-     3.2 Text
-     ---------------------------------------------------------- */
+  /* Text */
   --color-text-primary: #1e1e1e;
   --color-text-secondary: #666666;
   --color-text-tertiary: #aaaaaa;
   --color-text-disabled: #c5c5c5;
   --color-text-inverse: #ffffff;
 
-  /* ----------------------------------------------------------
-     3.3 Brand / Primary
-     ---------------------------------------------------------- */
-  --color-primary: #283cbd;
+  /* Brand / Primary */
+  --color-primary: #293dbd;
   --color-primary-muted: #dce0fe;
   --color-primary-hover: #2034a8;
 
-  /* ----------------------------------------------------------
-     3.4 Status
-     ---------------------------------------------------------- */
+  /* Status Colors */
   --color-success: #21af55;
-  --color-fail: #e34646;
-  --color-warn: #c8c812;
-  --color-info: #2a8aff;
-
   --color-success-bg: #e3fee1;
   --color-success-fg: #00421f;
+  --color-fail: #e34646;
   --color-fail-bg: #ffe6e6;
   --color-fail-fg: #742424;
+  --color-warn: #c8c812;
+  --color-info: #2a8aff;
   --color-info-bg: #e6f0ff;
   --color-info-fg: #13448d;
 
-  /* ----------------------------------------------------------
-     3.5 Semantic aliases
-     ---------------------------------------------------------- */
+  /* Semantic Aliases */
   --color-link: var(--color-primary);
   --color-link-hover: var(--color-primary-hover);
 
-  /* ----------------------------------------------------------
-     3.6 Layout
-     ---------------------------------------------------------- */
+  /* Layout Widths */
   --width-content: 52.5rem;
   --width-wide: 57.5rem;
   --aspect-mobile: 320/683;
 }
 
 /* ============================================================
-   4. FONT STYLE UTILITIES
+   4. MATERIAL SYMBOLS & BASE STYLES
    ============================================================ */
 
-@layer utilities {
+.material-symbols-rounded {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
 
-  /* Display / Hero */
-  .font-h1-display {
-    @apply font-display-mono text-[0.6625rem] leading-2.75 antialiased;
-  }
+/* ============================================================
+   5. TYPOGRAPHY UTILITIES (Tailwind CSS v4 @utility)
+   ============================================================ */
 
-  .font-h1 {
-    @apply font-display text-[2rem] md:text-[2.5rem] leading-10 md:leading-12 font-semibold antialiased;
-  }
-
-  .font-h2 {
-    @apply font-display text-2xl md:text-[1.75rem] leading-8 md:leading-12 font-semibold antialiased;
-  }
-
-  .font-h3 {
-    @apply font-display text-xl md:text-2xl leading-6 md:leading-8 font-semibold tracking-wide antialiased;
-  }
-
-  .font-h4 {
-    @apply font-display text-lg md:text-xl leading-7 font-semibold antialiased;
-  }
-
-  /* Body — sans (Geist) */
-  .font-body-lg-bold {
-    @apply font-sans md:text-2xl text-xl font-semibold leading-8 antialiased;
-  }
-
-  .font-body-lg {
-    @apply font-sans md:text-2xl text-xl leading-8 font-medium antialiased;
-  }
-
-  .font-body-md-bold {
-    @apply font-sans text-lg leading-6 font-semibold antialiased;
-  }
-
-  .font-body-md {
-    @apply font-sans text-base md:text-lg leading-6 antialiased;
-  }
-
-  .font-body-sm-bold {
-    @apply font-sans text-base leading-6 font-semibold antialiased;
-  }
-
-  .font-body-sm {
-    @apply font-sans text-base leading-6 antialiased;
-  }
-
-  .font-nav {
-    @apply font-sans text-base font-medium leading-6 antialiased;
-  }
-
-  /* Label — mono (JetBrains Mono) */
-  .font-mono-lg {
-    @apply font-jet md:text-lg text-base font-medium tracking-normal leading-7 antialiased;
-  }
-
-  .font-mono-md {
-    @apply font-jet text-sm md:text-base leading-5 font-medium antialiased;
-  }
-
-  .font-mono-sm {
-    @apply font-jet text-sm leading-5 font-medium antialiased;
+@utility font-hero-h1 {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 2rem;
+  line-height: 2.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 2.5rem;
+    line-height: 3rem;
   }
 }
+
+@utility font-cs-h1 {
+  font-family: var(--font-erode), Georgia, serif;
+  font-size: 2rem;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -1px;
+  color: var(--color-text-primary);
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 2.5rem;
+    line-height: 2.75rem;
+  }
+}
+
+@utility font-cs-h2 {
+  font-family: var(--font-erode), Georgia, serif;
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+}
+
+@utility font-cs-h3 {
+  font-family: var(--font-erode), Georgia, serif;
+  font-size: 1.5rem;
+  line-height: 1.375;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 1.75rem;
+  }
+}
+
+@utility font-cs-h4 {
+  font-family: var(--font-erode), Georgia, serif;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 1.5rem;
+  }
+}
+
+@utility font-cs-h5 {
+  font-family: var(--font-erode), Georgia, serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 1.125rem;
+  }
+}
+
+@utility font-cs-h6 {
+  font-family: var(--font-erode), Georgia, serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 1.125rem;
+  }
+}
+
+@utility font-cs-body {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1rem;
+  line-height: 1.75rem;
+  font-weight: 400;
+  color: #737373; /* neutral-500 */
+  -webkit-font-smoothing: antialiased;
+}
+
+@utility font-cs-blockquote {
+  font-family: var(--font-erode), Georgia, serif;
+  font-size: 1rem;
+  line-height: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  color: #262626; /* neutral-800 */
+  border-left-width: 2px;
+  border-color: #262626;
+  padding-left: 1rem;
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 1.5rem;
+  }
+}
+
+@utility font-mono-sm {
+  font-family: var(--font-jet), monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-tertiary);
+  -webkit-font-smoothing: antialiased;
+}
+
+@utility font-mono-md {
+  font-family: var(--font-jet), monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-tertiary);
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 0.875rem;
+  }
+}
+
+@utility font-mono-lg {
+  font-family: var(--font-jet), monospace;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 1rem;
+  }
+}
+
+@utility font-nav {
+  font-family: var(--font-jet), monospace;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  -webkit-font-smoothing: antialiased;
+  &:hover {
+    color: var(--color-text-primary);
+  }
+}
+
+/* Legacy fallback utilities */
+@utility font-h1 {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 2rem;
+  line-height: 2.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 2.5rem;
+    line-height: 3rem;
+  }
+}
+
+@utility font-h2 {
+  font-family: var(--font-erode), Georgia, serif;
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+}
+
+@utility font-h3 {
+  font-family: var(--font-erode), Georgia, serif;
+  font-size: 1.5rem;
+  line-height: 1.375;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 1.75rem;
+  }
+}
+
+@utility font-h4 {
+  font-family: var(--font-erode), Georgia, serif;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 1.5rem;
+  }
+}
+
+@utility font-body-lg {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1.25rem;
+  line-height: 2rem;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  -webkit-font-smoothing: antialiased;
+  @variant md {
+    font-size: 1.5rem;
+  }
+}
+
+@utility font-body-md {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1rem;
+  line-height: 1.75rem;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  -webkit-font-smoothing: antialiased;
+}
+
+@utility font-body-sm {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  -webkit-font-smoothing: antialiased;
+}
+
 
 .scrollable-element {
   &::-webkit-scrollbar {
@@ -194,3 +376,4 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+

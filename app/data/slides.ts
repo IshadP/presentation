@@ -109,6 +109,7 @@ const printhubSlides: Slide[] = [
   { id: "printhub-15", title: "", description: "", imageUrl: "/printhub/printhub-15.png" },
   { id: "printhub-16", title: "", description: "", imageUrl: "/printhub/printhub-16.png" },
   { id: "printhub-17", title: "", description: "", imageUrl: "/printhub/printhub-17.png" },
+  { id: "printhub-18", title: "", description: "", imageUrl: "/printhub/printhub-18.png" },
 ];
 
 
@@ -156,10 +157,42 @@ const wellplayedSlides: Slide[] = [
   { id: "wp-18", title: "", description: "", imageUrl: "/wellplayed/wp-18.png" },
 ];
 
+// TOPIC 4: Zoop (10 slides)
+const zoopSlides: Slide[] = [
+  { id: "zoop-1", title: "", description: "", imageUrl: "/zoop/zoop-1.png" },
+  { id: "zoop-2", title: "", description: "", imageUrl: "/zoop/zoop-2.png" },
+  { id: "zoop-3", title: "", description: "", imageUrl: "/zoop/zoop-3.png" },
+  { id: "zoop-4", title: "", description: "", imageUrl: "/zoop/zoop-4.png" },
+  { id: "zoop-5", title: "", description: "", imageUrl: "/zoop/zoop-5.png" },
+  { id: "zoop-6", title: "", description: "", imageUrl: "/zoop/zoop-6.png" },
+  { id: "zoop-7", title: "", description: "", imageUrl: "/zoop/zoop-7.png" },
+  { id: "zoop-8", title: "", description: "", imageUrl: "/zoop/zoop-8.png" },
+  { id: "zoop-9", title: "", description: "", imageUrl: "/zoop/zoop-9.png" },
+  { id: "zoop-10", title: "", description: "", imageUrl: "/zoop/zoop-10.png" },
+];
+
+// TOPIC 5: Grid Insight (14 slides)
+const gridInsightSlides: Slide[] = [
+  { id: "gi-1", title: "", description: "", imageUrl: "/gi/GI-1.png" },
+  { id: "gi-2", title: "", description: "", imageUrl: "/gi/GI-2.png" },
+  { id: "gi-3", title: "", description: "", imageUrl: "/gi/GI-3.png" },
+  { id: "gi-4", title: "", description: "", imageUrl: "/gi/GI-4.png" },
+  { id: "gi-5", title: "", description: "", imageUrl: "/gi/GI-5.png" },
+  { id: "gi-6", title: "", description: "", imageUrl: "/gi/GI-6.png" },
+  { id: "gi-7", title: "", description: "", imageUrl: "/gi/GI-7.png" },
+  { id: "gi-8", title: "", description: "", imageUrl: "/gi/GI-8.png" },
+  { id: "gi-9", title: "", description: "", imageUrl: "/gi/GI-9.png" },
+  { id: "gi-10", title: "", description: "", imageUrl: "/gi/GI-10.png" },
+  { id: "gi-11", title: "", description: "", imageUrl: "/gi/GI-11.png" },
+  { id: "gi-12", title: "", description: "", imageUrl: "/gi/GI-12.png" },
+  { id: "gi-13", title: "", description: "", imageUrl: "/gi/GI-13.png" },
+  { id: "gi-14", title: "", description: "", imageUrl: "/gi/GI-14.png" },
+];
+
 export const TOPICS: Topic[] = [
   {
     id: "printhub",
-    title: "Printhub Kiosk Redesign",
+    title: "Printhub Redesign",
     subtitle: "Redesigning a kiosk printing app that was costing users time and money",
     category: "Case Study 01 • Product Design",
     coverImage: "/printhub/printhub-1.png",
@@ -186,5 +219,25 @@ export const TOPICS: Topic[] = [
     slideCount: wellplayedSlides.length,
     slides: wellplayedSlides,
     thankYouMessage: "Thank You! You have completed Topic 03: Well Played Internship.",
+  },
+  {
+    id: "zoop",
+    title: "Zoop",
+    subtitle: "Designing a seamless transit and mobility experience for everyday commuters",
+    category: "Case Study 04 • Product Design",
+    coverImage: "/zoop/zoop-1.png",
+    slideCount: zoopSlides.length,
+    slides: zoopSlides,
+    thankYouMessage: "Thank You! You have completed Topic 04: Zoop.",
+  },
+  {
+    id: "grid-insight",
+    title: "Grid Insight",
+    subtitle: "Smart grid analytics and energy management platform UX design",
+    category: "Case Study 05 • Product Design",
+    coverImage: "/gi/GI-1.png",
+    slideCount: gridInsightSlides.length,
+    slides: gridInsightSlides,
+    thankYouMessage: "Thank You! You have completed Topic 05: Grid Insight.",
   },
 ];
